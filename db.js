@@ -61,6 +61,16 @@ const query=db.prepare(`update repos set name=? last_tag=? where url=?`)
 query.run(name,url,last_tag)
 }
 
+//getting the list of watches for a user
+ export function getWatchedById(chat_id){
+const query=db.prepare(`select repos.name,repos.last_tag
+from watches join repos on watches.url = repos.url
+where watches.chat_id = ?
+order by repos.name asc`)
+return query.all(chat_id)
+}
+
+
 //getting the list of watches 
 
 export function getAllWatchedRepos(){
